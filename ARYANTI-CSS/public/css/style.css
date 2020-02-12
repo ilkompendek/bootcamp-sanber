@@ -1,0 +1,66 @@
+body{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: small;
+    margin: 0px;
+    background-image: url("../img/pattern.jpg");
+}
+
+header {
+    background: white;
+    position: fixed;
+    width: 100%;
+}
+h1{
+    display: none;
+}
+nav {
+    float: right;
+    margin-top: 8px;
+    margin-right: 30px;
+    
+}
+nav ul{
+    display: flex;
+    flex-direction: row-reverse;
+    
+}
+nav li {
+    display: inline;
+    margin: 0 5px;
+}
+nav a{
+    text-decoration: none;
+}
+section{
+    z-index: -1;
+    position: relative;
+    top: 70px;
+    margin: 0 18%; 
+    font-size: 14px;
+}
+
+#article-list{
+    background: white;
+    padding: 15px 20px;
+    
+}
+article{
+    border-bottom: rgb(223, 223, 223) solid 1px;
+}
+
+article p{
+    text-align: justify;
+}
+
+footer{
+    position: relative;
+    top: 65px;
+    background: black;
+    color: white;
+    height: 35px;
+    text-align: center;
+}
+
+footer > h5{
+    padding-top: 10px;
+}

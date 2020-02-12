@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .merah{
+            background: red;
+        }
+    </style>
+</head>
+<body onload="alert('sudah selesai')">
+    <h1>Belajar DOM Js</h1>
+    <div id="box"></div>
+
+    <div class="boxes"></div>
+    <div class="boxes"></div>
+    <div class="boxes"></div>
+
+    <ul>
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>Javascript</li>
+    </ul>
+
+    <div id="box1">
+        <div id="p1">Paragraph 1</div>
+    </div>
+
+    <img onclick="berubah()" src="1.jpg"  alt="" width="200" id="gambar">
+    <input type="text" value='nama' id="input">
+
+    <script>
+        //SELECTOR
+        document.getElementById('box').innerHTML ="Sekolah Koding";
+        
+        var boxes = document.getElementsByClassName('boxes');
+        
+        boxes[0].innerHTML = "versi terbaru"
+        boxes[1].innerHTML = "versi sebelumnya";
+        boxes[2].innerHTML = "versi terlama"
+        
+        var list = document.getElementsByTagName('li');
+        list[0].innerHTML = "PHP";
+        list[1].innerHTML = "SASS";
+        list[2].innerHTML = "SQL";
+
+        //EDIT HTML, Menambah, menghapus, mengubah
+        //menambah elemen
+        var el = document.createElement('h2');
+        var text = document.createTextNode('Belajar programming online');
+        var box1 = document.getElementById('box1');
+
+        el.appendChild(text);
+        box1.appendChild(el);
+
+        //menghapus
+        //box1.removeChild(el);
+
+        //mengedit
+        var el2 = document.createElement('h3');
+        var text2 = document.createTextNode('Belajar sekarang');
+        el2.appendChild(text2);
+
+        //box1.replaceChild(baru, lama)
+        box1.replaceChild(el2, p1)
+
+        //MENGUBAH ATRIBUT HTML
+        var img = document.getElementById('gambar');
+        //menambah atribut
+        //img.setAttribute('class','merah');
+        img.width = 400;
+        
+        var input = document.getElementById('input');
+        input.value = "nama lengkap";
+
+        input.style.border = '3px solid blue';
+        input.style.backgroundColor = 'yellow';
+
+        //EVENT
+        function berubah(){
+            img.style.border = "3px solid blue";
+        }
+
+        //input.onclick = function() { berubah2()};
+        function berubah2() {
+            input.style.backgroundColor = 'red';
+        }
+
+        // input.onclick = function() { 
+        //     input.style.backgroundColor = 'grey';
+        // };
+
+        input.addEventListener('click',function(){
+            berubah2()
+        })
+
+
+    </script>
+</body>
+</html>
