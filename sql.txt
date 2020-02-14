@@ -1,0 +1,54 @@
+CATATAN: 
+Tugas ini menggunakan PostgreSQL command syntax
+oleh: Aryanti Dwiastuti
++++++++++++++++++++++++++++++++++++
+
+Soal 1 Membuat Database
+Q: Buatlah database dengan nama "myshop". Tulislah di text jawaban pada nomor 1. 
+A: CREATE DATABASE myshop;
+
+Soal 2 Membuat Table di Dalam Database
+Q: Buatlah tabel - tabel baru di dalam database myshop
+A:
+	//tabel users
+	CREATE TABLE users(id SERIAL NOT NULL PRIMARY KEY, name varchar(255), email varchar(255), password varchar(255));
+	
+	//table items
+	CREATE TABLE items (id SERIAL PRIMARY KEY, name varchar(255), description varchar(255), price int, stock int, category_id int);
+	
+	//table categories
+	CREATE TABLE categories (id SERIAL PRIMARY KEY, name varchar(255));
+	
+	//foreign key tabel categories field category_id
+	LTER TABLE items ADD FOREIGN KEY (category_id) REFERENCES categories(id);
+	
+Soal 3 Memasukkan Data pada Table
+Q: Masukkanlah data data berikut dengan perintah SQL "INSERT INTO . . " ke dalam table yang sudah dibuat pada soal sebelumnya.
+A: 
+	//insert users
+	INSERT INTO users (name, email, password) VALUES ('John Doe', 'john@doe.com', 'john123'), ('Jane Doe', 'jane@doe.com', 'jenita123');
+	
+	//insert categories 
+	INSERT INTO category (name) VALUES ('gadget'), ('cloth'),('men'), ('women'),('branded');
+	
+	//insert items
+	INSERT INTO items (name, description, price, stock, category_id) VALUES 
+	('Samsung b50', 'hape keren dari merek sumsang', 4000000, 100, 1), 
+	('Uniklooh', 'baju keren dari brand ternama', 500000, 50, 2), 
+	('IMHO Watch','jam tangan anak yang jujur banget', 2000000, 10, 1);
+	
+Soal 4 Mengambil Data dari Database
+a. Mengambil data users
+   Q: Buatlah sebuah query untuk mendapatkan data seluruh user pada table users. Sajikan semua field pada table users KECUALI password nya.
+   A: select (name, email) from users;
+
+b. Mengambil data items
+   - Q: Buatlah sebuah query untuk mendapatkan data item pada table items yang memiliki harga di atas 1000000 (satu juta).
+     A: select * from items where price > 1000000;
+	 
+   - Q: Buat sebuah query untuk mengambil data item pada table items yang memiliki name serupa atau mirip (like) dengan kata kunci "uniklo", "watch", "sang" (pilih salah satu saja).
+     A: select * from items where name like '%sang%';
+	 
+Soal 5 Mengubah Data dari Database
+Q: Ubahlah data pada table items untuk item dengan nama sumsang harganya (price) menjadi 2500000.
+A: UPDATE items SET price = 2500000 where name like 'Sumsang%';

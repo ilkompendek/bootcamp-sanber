@@ -1,0 +1,232 @@
+Aryanti Dwiastuti, [14.02.20 12:02]
+Microsoft Windows [Version 10.0.17134.1246]
+(c) 2018 Microsoft Corporation. All rights reserved.
+
+C:\Users\asus>psql
+'psql' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Users\asus>postgres --version
+'postgres' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Users\asus>cd..
+
+C:\Users>cd..
+
+C:\>cd xampp
+
+C:\xampp>cd pgsql
+
+C:\xampp\pgsql>cd bin
+
+C:\xampp\pgsql\bin>psql -U postgres
+Password for user postgres:
+psql (11.4)
+Type "help" for help.
+
+postgres=# CREATE DATABASE myshop;
+CREATE DATABASE
+
+postgres=# \c myshop
+You are now connected to database "myshop" as user "postgres".
+myshop=# CREATE TABLE users(id SERIAL NOT NULL PRIMARY KEY, name varchar(255), email varchar(255), password varchar(255));
+CREATE TABLE
+myshop=# CREATE TABLE items (id SERIAL PRIMARY KEY, name varchar(255), description varchar(255), price int, stock int, category_id int);
+CREATE TABLE
+myshop=# CREATE TABLE items (id SERIAL PRIMARY KEY, name varchar(255));
+ERROR:  relation "items" already exists
+myshop=# CREATE TABLE category (id SERIAL PRIMARY KEY, name varchar(255));
+CREATE TABLE
+myshop=# \dt
+          List of relations
+ Schema |   Name   | Type  |  Owner
+--------+----------+-------+----------
+ public | category | table | postgres
+ public | items    | table | postgres
+ public | users    | table | postgres
+(3 rows)
+
+
+myshop=# \dT
+     List of data types
+ Schema | Name | Description
+--------+------+-------------
+(0 rows)
+
+
+myshop=# \d category
+                                    Table "public.category"
+ Column |          Type          | Collation | Nullable |               Default
+--------+------------------------+-----------+----------+--------------------------------------
+ id     | integer                |           | not null | nextval('category_id_seq'::regclass)
+ name   | character varying(255) |           |          |
+Indexes:
+    "category_pkey" PRIMARY KEY, btree (id)
+
+
+myshop=# \d items
+                                      Table "public.items"
+   Column
+
+Aryanti Dwiastuti, [14.02.20 12:02]
+|          Type          | Collation | Nullable |              Default
+-------------+------------------------+-----------+----------+-----------------------------------
+ id          | integer                |           | not null | nextval('items_id_seq'::regclass)
+ name        | character varying(255) |           |          |
+ description | character varying(255) |           |          |
+ price       | integer                |           |          |
+ stock       | integer                |           |          |
+ category_id | integer                |           |          |
+Indexes:
+    "items_pkey" PRIMARY KEY, btree (id)
+
+
+myshop=# \d users
+                                     Table "public.users"
+  Column  |          Type          | Collation | Nullable |              Default
+----------+------------------------+-----------+----------+-----------------------------------
+ id       | integer                |           | not null | nextval('users_id_seq'::regclass)
+ name     | character varying(255) |           |          |
+ email    | character varying(255) |           |          |
+ password | character varying(255) |           |          |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+
+
+myshop=# INSERT INTO users VALUES ("John Doe", "john@doe.com", "john123");
+ERROR:  column "John Doe" does not exist
+LINE 1: INSERT INTO users VALUES ("John Doe", "john@doe.com", "john1...
+                                  ^
+myshop=# INSERT INTO users VALUES ('John Doe', 'john@doe.com', 'john123');
+ERROR:  invalid input syntax for integer: "John Doe"
+LINE 1: INSERT INTO users VALUES ('John Doe', 'john@doe.com', 'john1...
+                                  ^
+myshop=# INSERT INTO users (name, email, password) VALUES ('John Doe', 'john@doe.com', 'john123'), ('Jane Doe', 'jane@doe.com', 'jenita123');
+INSERT 0 2
+myshop=# select * from users
+myshop-# ;
+ id |   name   |    email     | password
+----+----------+--------------+-----------
+  1 | John Doe | john@doe.com | john123
+  2 | Jane Doe | jane@doe.com | jenita123
+(2 rows)
+
+
+myshop=# ALTER TABLE items ADD FOREIGN KEY (category_id) REFERENCES category(id);
+ALTER TABLE
+myshop=# INSERT INTO users (name) VALUES ('gadget'), ('cloth'),('men'), ('women'),('branded');
+INSERT 0 5
+myshop=# INSERT INTO items (name, description, price, stock, category_id) VALUES ('Samsung b50', 'hape keren dari merek sumsang', 4000000, 100, 1), ('Uniklooh', 'baju keren dari brand ternama', 500000, 50, 2), ('IMHO Watch','jam tangan anak yang jujur banget', 2000000, 10, 1);
+ERROR:  insert or update on table "items" violates foreign key constraint "items_category_id_fkey"
+DETAIL:  Key (category_id)=(1) is not present in table "category".
+myshop=# select * from category;
+ id | name
+----+------
+(0 rows)
+
+
+myshop=# select * from users;
+ id |   name   |    email     | password
+----+----------+--------------+-----------
+  1 | John Doe | john@doe.com | john123
+  2 | Jane Doe | jane@doe.com | jenita123
+  3 | gadget   |              |
+  4 | cloth    |              |
+  5 | men      |              |
+  6 | women    |              |
+  7 | branded  |              |
+(7 rows)
+
+
+myshop=# INSERT INTO category (name) VALUES ('gadget'), ('cloth'),('men'), ('women'),('branded');
+INSERT 0 5
+myshop=# INSERT INTO items (name, description, price, stock, category_id) VALUES ('Samsung b50', 'hape keren dari merek sumsang', 4000000, 100, 1), ('Uniklooh', 'baju keren dari brand ternama', 500000, 50, 2), ('IMHO Watch','jam tangan anak yang jujur banget', 2000000, 10, 1);
+INSERT 0 3
+myshop=# select * from items where price > 1000000;
+ id |    name     |            description            |  price  | stock | category_id
+----+-------------+-----------------------------------+---------+-------+-------------
+  4 | Samsung b50 | hape keren dari merek sumsang     | 4000000 |   100 |           1
+  6 | IMHO Watch  | jam tangan anak yang jujur banget | 2000000 |    10 |           1
+(2 rows)
+
+
+myshop=# select * from items;
+ id |    name     |            description            |  price  | stock | category_id
+----+-------------+-----------------------------------
+
+Aryanti Dwiastuti, [14.02.20 12:02]
++---------+-------+-------------
+  4 | Samsung b50 | hape keren dari merek sumsang     | 4000000 |   100 |           1
+  5 | Uniklooh    | baju keren dari brand ternama     |  500000 |    50 |           2
+  6 | IMHO Watch  | jam tangan anak yang jujur banget | 2000000 |    10 |           1
+(3 rows)
+
+
+myshop=# select * from items where name like 'uniklo%';
+ id | name | description | price | stock | category_id
+----+------+-------------+-------+-------+-------------
+(0 rows)
+
+
+myshop=# select * from items where name like 'Uniklo%';
+ id |   name   |          description          | price  | stock | category_id
+----+----------+-------------------------------+--------+-------+-------------
+  5 | Uniklooh | baju keren dari brand ternama | 500000 |    50 |           2
+(1 row)
+
+
+myshop=# select * from items where name like 'Watch%';
+ id | name | description | price | stock | category_id
+----+------+-------------+-------+-------+-------------
+(0 rows)
+
+
+myshop=# select * from items where name like '%Watch';
+ id |    name    |            description            |  price  | stock | category_id
+----+------------+-----------------------------------+---------+-------+-------------
+  6 | IMHO Watch | jam tangan anak yang jujur banget | 2000000 |    10 |           1
+(1 row)
+
+
+myshop=# select * from items where name like '%sang';
+ id | name | description | price | stock | category_id
+----+------+-------------+-------+-------+-------------
+(0 rows)
+
+
+myshop=# select * from items where name like '%sang%';
+ id |    name     |          description          |  price  | stock | category_id
+----+-------------+-------------------------------+---------+-------+-------------
+  4 | Sumsang b50 | hape keren dari merek sumsang | 4000000 |   100 |           1
+(1 row)
+
+
+myshop=# select * from users;
+ id |   name   |    email     | password
+----+----------+--------------+-----------
+  1 | John Doe | john@doe.com | john123
+  2 | Jane Doe | jane@doe.com | jenita123
+(2 rows)
+
+
+myshop=# select (name, email) from users;
+            row
+---------------------------
+ ("John Doe",john@doe.com)
+ ("Jane Doe",jane@doe.com)
+(2 rows)
+
+
+myshop=# UPDATE items SET price = 2500000 where name like 'Sumsang%';
+UPDATE 1
+myshop=# select * from items;
+ id |    name     |            description            |  price  | stock | category_id
+----+-------------+-----------------------------------+---------+-------+-------------
+  5 | Uniklooh    | baju keren dari brand ternama     |  500000 |    50 |           2
+  6 | IMHO Watch  | jam tangan anak yang jujur banget | 2000000 |    10 |           1
+  4 | Sumsang b50 | hape keren dari merek sumsang     | 2500000 |   100 |           1
+(3 rows)
+
+
+myshop=#
